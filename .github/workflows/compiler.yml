@@ -22,40 +22,54 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout repository
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         name: Set up JDK 21
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'maven'
-          cache-dependency-path: 'TP${{ vars.NRO_TP }}_GRUPO_1/pom.xml'
 
-      - name: Build TP${{ vars.NRO_TP }}_GRUPO_1
+      - name: Build TP${{ vars.NRO_TP }}
         id: compile
         working-directory: TP${{ vars.NRO_TP }}_GRUPO_1
         run: |
-          if ! mvn -B -ntp compile > maven_output.log 2>&1; then
+          mkdir -p out
+          find src -name "*.java" > sources.txt
+
+          if [ ! -s sources.txt ]; then
+            echo "No se encontraron archivos .java en src/"
+            {
+              echo "error_reason<<EOF"
+              echo "No se encontraron archivos .java en src/"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          if ! javac --release 21 -Xlint:all -encoding UTF-8 -d out @sources.txt > javac_output.log 2>&1; then
             echo "Error detectado. Extrayendo el motivo..."
-            ERRORES=$(grep "\[ERROR\]" maven_output.log | head -n 15 || true)
+            ERRORES=$(grep -E "error:" javac_output.log | head -n 15 || true)
             if [ -z "$ERRORES" ]; then
-              ERRORES=$(tail -n 15 maven_output.log)
+              ERRORES=$(tail -n 15 javac_output.log)
             fi
             {
               echo "error_reason<<EOF"
               echo "$ERRORES"
               echo "EOF"
             } >> "$GITHUB_OUTPUT"
-            cat maven_output.log
+            cat javac_output.log
             exit 1
           fi
-          cat maven_output.log
 
-      - name: Upload maven log
+          cat javac_output.log
+          echo "Clases generadas:"
+          find out -name "*.class"
+
+      - name: Upload javac log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: maven-output-log
-          path: TP${{ vars.NRO_TP }}_GRUPO_1/maven_output.log
+          name: javac-output-log
+          path: TP${{ vars.NRO_TP }}_GRUPO_1/javac_output.log
           if-no-files-found: ignore
 
   mensaje_exito:
@@ -76,7 +90,7 @@ jobs:
         run: |
           echo "❌ La compilación del proyecto TP${{ vars.NRO_TP }}_GRUPO_1 ha fallado."
           echo "========================================"
-          echo "Razón del fallo (Errores de Maven):"
+          echo "Razón del fallo (Errores de compilación):"
           echo "${{ needs.build.outputs.motivo_error }}"
           echo "========================================"
           exit 1
