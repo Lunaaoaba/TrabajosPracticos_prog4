@@ -13,6 +13,4 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - run: mkdir -p bin
-    - run: find src -name "*.java" > fuentes.txt
-    - run: javac -d bin @fuentes.txt
+    
