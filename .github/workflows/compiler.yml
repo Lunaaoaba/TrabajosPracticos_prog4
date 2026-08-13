@@ -1,16 +1,69 @@
+name: CHeck Project Compilation Status
+
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+    paths:
+      - '!.github/**'
+      - 'TP*_GRUPO_1/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      motivo_error: ${{ steps.compile.outputs.error_reason }}
+      
     steps:
     - uses: actions/checkout@v4
+      name: Checkout repository
 
     - uses: actions/setup-java@v4
+      name: Set up JDK 21
       with:
         java-version: '21'
         distribution: 'temurin'
+        cache: 'maven'
 
-    
+    - name: Build TP${{ vars.NRO_TP }}_GRUPO_1
+      id: compile
+      run: |
+        cd TP${{ vars.NRO_TP }}_GRUPO_1
+        
+        if ! mvn compile > maven_output.log 2>&1; then
+          echo "Error detectado. Extrayendo el motivo..."
+          
+          ERRORES=$(grep "\[ERROR\]" maven_output.log | head -n 15)
+          
+          echo "error_reason<<EOF" >> $GITHUB_OUTPUT
+          echo "$ERRORES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          cat maven_output.log
+          exit 1
+        fi
+        
+        cat maven_output.log
+
+  mensaje_exito:
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reportar Éxito
+        run: |
+          echo "✅ ¡Todo excelente! El proyecto TP${{ vars.NRO_TP }}_GRUPO_1 compiló correctamente sin errores."
+
+  mensaje_fallo:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reportar Fallo
+        run: |
+          echo "❌ La compilación del proyecto TP${{ vars.NRO_TP }}_GRUPO_1 ha fallado."
+          echo "========================================"
+          echo "Razón del fallo (Errores de Maven):"
+          echo "${{ needs.build.outputs.motivo_error }}"
+          echo "========================================"
+          exit 1
