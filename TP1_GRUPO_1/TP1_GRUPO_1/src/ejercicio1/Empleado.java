@@ -3,17 +3,38 @@ package ejercicio1;
 import java.time.LocalDate;
 
 public class Empleado extends Persona {
-    private static final int legajo = 1000;
+    private static int contadorLegajo = 1000;
+    private final int legajo;
     private String puesto;
 
     public Empleado() {
         super();
+        this.legajo = contadorLegajo++;
         this.puesto = " Sin puesto ";
     }
     
     public Empleado(String puesto, String Dni, String Nombre, String Apellido, int Edad, LocalDate FechaNacimiento,
 			   String Genero, String Direccion, String Telefono, String Email) {
     	super(Dni, Nombre, Apellido, Edad, FechaNacimiento, Genero, Direccion, Telefono, Email);
-    	 this.puesto = puesto;
-    } 
+    	this.legajo = contadorLegajo++; 
+    	this.puesto = puesto;
+    	 
+    }
+
+	public String getPuesto() {
+		return puesto;
+	}
+
+	public void setPuesto(String puesto) {
+		this.puesto = puesto;
+	}
+
+	public int getLegajo() {
+		return legajo;
+	}
+
+	@Override
+	public String toString() {
+		return "Empleado [legajo=" + legajo + ", puesto=" + puesto + "]" + super.toString();
+	} 
 } 
