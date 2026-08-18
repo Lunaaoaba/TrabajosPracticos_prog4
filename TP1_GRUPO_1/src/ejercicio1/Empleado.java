@@ -6,6 +6,11 @@ public class Empleado extends Persona {
     private final int legajo;
     private String puesto;
 
+    
+    public static int devuelveProximoLegajo() {
+    	return contadorLegajo + 1;
+    }
+   
     public Empleado() {
         super();
         this.legajo = contadorLegajo++;
