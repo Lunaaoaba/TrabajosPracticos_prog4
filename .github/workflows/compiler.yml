@@ -1,0 +1,96 @@
+name: Check Project Compilation Status
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'TP*_GRUPO_1/**'
+      - '.github/workflows/compiler.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    outputs:
+      motivo_error: ${{ steps.compile.outputs.error_reason }}
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout repository
+
+      - uses: actions/setup-java@v5
+        name: Set up JDK 21
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build TP${{ vars.NRO_TP }}
+        id: compile
+        working-directory: TP${{ vars.NRO_TP }}_GRUPO_1
+        run: |
+          mkdir -p out
+          find src -name "*.java" > sources.txt
+
+          if [ ! -s sources.txt ]; then
+            echo "No se encontraron archivos .java en src/"
+            {
+              echo "error_reason<<EOF"
+              echo "No se encontraron archivos .java en src/"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+          if ! javac --release 21 -Xlint:all -encoding UTF-8 -d out @sources.txt > javac_output.log 2>&1; then
+            echo "Error detectado. Extrayendo el motivo..."
+            ERRORES=$(grep -E "error:" javac_output.log | head -n 15 || true)
+            if [ -z "$ERRORES" ]; then
+              ERRORES=$(tail -n 15 javac_output.log)
+            fi
+            {
+              echo "error_reason<<EOF"
+              echo "$ERRORES"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            cat javac_output.log
+            exit 1
+          fi
+
+          cat javac_output.log
+          echo "Clases generadas:"
+          find out -name "*.class"
+
+      - name: Upload javac log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: javac-output-log
+          path: TP${{ vars.NRO_TP }}_GRUPO_1/javac_output.log
+          if-no-files-found: ignore
+
+  mensaje_exito:
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reportar Éxito
+        run: |
+          echo "✅ ¡Todo excelente! El proyecto TP${{ vars.NRO_TP }}_GRUPO_1 compiló correctamente sin errores."
+
+  mensaje_fallo:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reportar Fallo
+        run: |
+          echo "❌ La compilación del proyecto TP${{ vars.NRO_TP }}_GRUPO_1 ha fallado."
+          echo "========================================"
+          echo "Razón del fallo (Errores de compilación):"
+          echo "${{ needs.build.outputs.motivo_error }}"
+          echo "========================================"
+          exit 1
