@@ -97,8 +97,8 @@ public class Persona {
 
 	@Override
 	public String toString() {
-		return "Persona [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad
-				+ ", fechaNacimiento=" + fechaNacimiento + ", genero=" + genero + ", direccion=" + direccion
-				+ ", telefono=" + telefono + ", email=" + email + "]";
+		return "Persona: \n DNI: " + dni + "\n Nombre: " + nombre + "\n Apellido: " + apellido + "\n Edad: " + edad + "\n Fecha de Nacimiento: " + fechaNacimiento
+				+ "\n Genero: " + genero + "\n Direccion: " + direccion + "\n Telefono: " + telefono
+				+ "\n Email: " + email;
 	}
 }
