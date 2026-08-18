@@ -97,7 +97,12 @@ public class Persona {
 		this.email = email;
 	}
 	
-
+	public String toString() {
+        return "Persona: \n DNI: " + dni + "\n Nombre: " + nombre + "\n Apellido: " + apellido +
+               "\n Edad: " + edad + "\n Fecha de Nacimiento: " + fechaNacimiento +
+               "\n Genero: " + genero + "\n Direccion: " + direccion +
+               "\n Telefono: " + telefono + "\n Email: " + email;
+    }
 	
 	
 	
