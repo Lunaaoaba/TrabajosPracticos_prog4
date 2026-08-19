@@ -13,7 +13,8 @@ public class Persona {
 	private String direccion;
 	private String telefono;
 	private String email;
-
+	
+	
 	//Constructores
 	public Persona(){
 		this.dni = "00000000";
@@ -38,7 +39,8 @@ public class Persona {
 		this.telefono = Telefono;
 		this.email = Email;
 	}
-
+	
+	
 	//Getters y Setters
 	public String getDni() {
 		return dni;
@@ -94,11 +96,14 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Override
+	
 	public String toString() {
-		return "Persona: \n DNI: " + dni + "\n Nombre: " + nombre + "\n Apellido: " + apellido + "\n Edad: " + edad + "\n Fecha de Nacimiento: " + fechaNacimiento
-				+ "\n Genero: " + genero + "\n Direccion: " + direccion + "\n Telefono: " + telefono
-				+ "\n Email: " + email;
-	}
+        return "Persona: \n DNI: " + dni + "\n Nombre: " + nombre + "\n Apellido: " + apellido +
+               "\n Edad: " + edad + "\n Fecha de Nacimiento: " + fechaNacimiento +
+               "\n Genero: " + genero + "\n Direccion: " + direccion +
+               "\n Telefono: " + telefono + "\n Email: " + email;
+    }
+	
+	
+	
 }
