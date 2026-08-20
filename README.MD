@@ -1,9 +1,9 @@
 # Programación 4 — Trabajos Prácticos
 
-**Universidad:** Universidad Tecnológica Nacional (UTN) — Facultad Regional General Pacheco
-**Carrera:** Tecnicatura Universitaria en Programación (TUP)
-**Materia:** Programación 4 (Laboratorio IV)
-**Año y Cuatrimestre:** 2026 — 2do Cuatrimestre
+## UTN - FRGP
+## TUP
+### Programación 4
+#### 2026 - 2do Cuatrimestre
 
 ---
 
