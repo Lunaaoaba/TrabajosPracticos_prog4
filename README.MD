@@ -1,9 +1,6 @@
-# Programación 4 — Trabajos Prácticos
-
-## UTN - FRGP
-## TUP
-### Programación 4
-#### 2026 - 2do Cuatrimestre
+<h1 align="center">Programación 4 - TPs</h1>
+<h2 align="center">UTN FRGP - TUP</h2>
+<h4 align="center">2026 - 2do Cuatrimestre</h4>
 
 ---
 
