@@ -1,6 +1,6 @@
-<h1 align="center">Programación 4 - TPs</h1>
-<h2 align="center">UTN FRGP - TUP</h2>
-<h4 align="center">2026 - 2do Cuatrimestre</h4>
+<p align="center"style="font-size: 22px;">Programación 4 - TPs</p>
+<p align="center"style="font-size: 22px;">UTN FRGP - TUP</p>
+<p align="center"style="font-size: 22px;">2026 - 2do Cuatrimestre</p>
 
 ---
 
