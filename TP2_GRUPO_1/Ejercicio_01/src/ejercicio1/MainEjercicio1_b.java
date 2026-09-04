@@ -1,5 +1,6 @@
 package ejercicio1;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainEjercicio1_b {
 
@@ -12,6 +13,13 @@ public class MainEjercicio1_b {
         listaPersona.add(new Persona("AA202020", "Juan", "Pérez", 30, null, "Masculino", "Calle 123", "123456789", "juan.perez@gmail.com"));
         listaPersona.add(new Persona("40404040", "Ana", "Rodríguez", 35, null, "Femenino", "Calle 789", "321654987", "ana.rodriguez@gmail.com"));
         listaPersona.add(new Persona("50505050", "Carlos", "López", 40, null, "Masculino", "Calle 321", "654987321", "carlos.lopez@gmail.com"));
+        
+        Iterator<Persona> iteradorPersonas = listaPersona.iterator();
+        
+        while(iteradorPersonas.hasNext()) {
+        	System.out.println(iteradorPersonas.next());
+        }
 	}
 
+	
 }
