@@ -100,24 +100,12 @@ public class Persona {
 		
 		//Metodos
 		
-		public static void exVerificarDNI(Persona persona) throws ExVerificarDNI {
-			String dni = persona.getDni();
-			//verifica que el DNI contenga exactamente 8 caracteres numéricos
-			if (dni.length() != 8) {
+		public static void exVerificarDNI(String dni) throws ExVerificarDNI {
+
+		    if (dni == null || !dni.matches("\\d{8}")) {
 		        throw new ExVerificarDNI();
 		    }
-
-		    //verificar que todos sean numeros
-		    if (!dni.matches("\\d{8}")) {
-		        throw new ExVerificarDNI();
-		    }
-
-		    //si pasa las validaciones
-			System.out.println("La Persona \"" + persona.getNombre() + " " + persona.getApellido() + "\" con DNI \"" + persona.getDni() + "\" fue agregada correctamente");
-		}
-		
-		
-		
+		}		
 	
 		@Override
 		public int hashCode() {
