@@ -16,9 +16,14 @@ public class MainEjercicio1_b {
         
         Iterator<Persona> iteradorPersonas = listaPersona.iterator();
         
+        boolean primero = true;
         while(iteradorPersonas.hasNext()) {
-        	System.out.println(iteradorPersonas.next());
+            if(primero) {
+                System.out.println("------------------------------");
+                primero = false;
+            }
+            System.out.println(iteradorPersonas.next());
+            System.out.println("------------------------------");
         }
 	}
-
 }
