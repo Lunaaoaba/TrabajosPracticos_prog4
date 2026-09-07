@@ -16,14 +16,22 @@ public class MainEjercicio1_c {
         empleados[3] = new Empleado("Diseñador", "12123456", "Ana", "Martinez", 27, java.time.LocalDate.of(1996, 9, 5), "Femenino", "Calle Sol 321", "5566778899", "ana.martinez@empresa.com");
         empleados[4] = new Empleado("Especialista", "99887766", "Luis", "Rodriguez", 32, java.time.LocalDate.of(1991, 12, 10), "Masculino", "Avenida Principal 1000", "9988776655", "luis.rodriguez@empresa.com");
 
-        TreeSet<Empleado> treeSetEmpleados = new TreeSet <>();
+        TreeSet<Empleado> treeSetEmpleados = new TreeSet<Empleado>();
         
         for (Empleado emp : empleados) {
             treeSetEmpleados.add(emp);
         }
 
+        Iterator<Empleado> iteradorEmpleadovich = treeSetEmpleados.iterator();
+        
+        while(iteradorEmpleadovich.hasNext()) {
+        	System.out.println(iteradorEmpleadovich.next());
+        }
+        
+        /*
         for (Empleado emp : treeSetEmpleados) {
             System.out.println(emp.getNombre() + " - Legajo: " + emp.getLegajo()); 
         }
+        */
 	}
 }

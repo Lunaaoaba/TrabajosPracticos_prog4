@@ -1,6 +1,7 @@
 package ejercicio1;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class MainEjercicio1_d {
     
@@ -20,8 +21,16 @@ public class MainEjercicio1_d {
             hashSetPersonas.add(per);
         }
         
+        Iterator<Persona> iteradorPersonovich = hashSetPersonas.iterator();
+        
+        while(iteradorPersonovich.hasNext()) {
+        	System.out.println(iteradorPersonovich.next());
+        }
+        
+        /*
         for (Persona per : hashSetPersonas) {
             System.out.println(per.getNombre() + " " + per.getApellido() + " - DNI: " + per.getDni()); 
         }
+        */
     }
 }
